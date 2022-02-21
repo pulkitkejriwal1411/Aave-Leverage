@@ -1,10 +1,12 @@
+const axios = require('axios')
+
 
 const LendingPoolAbi = require('../LendingPoolABI.json');
 const LendingPoolAddress = '0x8dFf5E27EA6b7AC08EbFdf9eB090F32ee9a30fcf';
 const LendingPoolcontract = new web3.eth.Contract(LendingPoolAbi, LendingPoolAddress);
 
 
-let addressArray = ['0xc552f6c8efab61c293a16a79a4bbbab24a56dbee'];//add users here 
+let addressArray = [];//add users here 
 
 let depositCount = new Map();
 
@@ -55,18 +57,38 @@ async function getDeposits(fromBlock,toBlock){
 }
 
 
+async function getAccounts(){
+    const result = await axios.post(
+        'https://api.thegraph.com/subgraphs/name/thrilok209/instadapp-uniswap-v3',
+        {
+            query: `{
+                positions(first: 1000) {
+                  owner
+                }
+            }`
+        }
+    );
+    let res = result.data.data.positions
+    for(let i=0;i<res.length;i++)
+    {
+        addressArray.push(res[i].owner);
+    }
+}
+
+
 async function calculate(){
     
-     
+    getAccounts();
     const latestBlock = await web3.eth.getBlockNumber();
-    let fromBlock = 25185670;//change the block limit here
-    let toBlock = 25185771;
+    let fromBlock = 25000000;//change the block limit here
+    let toBlock = latestBlock;
 
-    //looping over hundred blocks at a time
+    //looping over ten thousand blocks at a time
 
-    for(let i=fromBlock;i<toBlock;i+=101)
+    for(let i=fromBlock;i<toBlock;i+=10001)
     {
-        await getDeposits(i,i+100);
+        console.log(i);
+        await getDeposits(i,i+10000);
     }
     
  
