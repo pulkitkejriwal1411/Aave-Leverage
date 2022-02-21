@@ -83,7 +83,7 @@ async function calculate(){
     let fromBlock = 24664156;//change the block limit here
     let toBlock = latestBlock;
 
-    //looping over ten thousand blocks at a time
+    //looping over million  blocks at a time
 
     for(let i=fromBlock;i<toBlock;i+=1000001)
     {
