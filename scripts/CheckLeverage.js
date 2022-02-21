@@ -80,15 +80,15 @@ async function calculate(){
     
     getAccounts();
     const latestBlock = await web3.eth.getBlockNumber();
-    let fromBlock = 25000000;//change the block limit here
+    let fromBlock = 24664156;//change the block limit here
     let toBlock = latestBlock;
 
     //looping over ten thousand blocks at a time
 
-    for(let i=fromBlock;i<toBlock;i+=10001)
+    for(let i=fromBlock;i<toBlock;i+=1000001)
     {
         console.log(i);
-        await getDeposits(i,i+10000);
+        await getDeposits(i,i+1000000);
     }
     
  
